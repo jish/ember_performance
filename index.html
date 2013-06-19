@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+    <meta name="description" content="An Ember Meetup presentation on performance">
+    <meta name="author" content="Josh Lubaway">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+      // document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+        <section>
+          <blockquote>Our own years of testing have conclusively shown that when speed of a feature or product improves, usage, quite simply, goes up.</blockquote>
+          <p style="font-size: .4em">http://googleblog.blogspot.com/2009/12/this-week-in-search-121809.html</p>
+        </section>
+
+        <section>
+          <h1>Hello</h1>
+          <p>Josh Lubaway</p>
+          <p>Zendesk</p>
+        </section>
+
+        <section>
+          <img src="img/ember.png">
+        </section>
+
+        <section>
+          <h2>Zendesk's Ember App</h2>
+
+          <p><strong>SproutCore:</strong> Aug 29, 2011</p>
+          <p><strong>Amber:</strong> Dec 12, 2011</p>
+          <p><strong>Ember:</strong> Jan 12, 2012</p>
+
+          <p><strong>Lines of code:</strong> 64,000</p>
+        </section>
+
+        <section>
+          <h2>Caching</h2>
+        </section>
+
+        <section>
+          <img src="img/cache_request.png">
+        </section>
+
+        <section>
+          <img src="img/cache_response.png">
+        </section>
+
+        <section>
+          <img src="img/cached_data.png">
+        </section>
+
+        <section>
+          <h2>Video</h2>
+          <p><a href="video/agent_interface_2x.m4v">video/agent_interface_2x.m4v</a></p>
+        </section>
+
+        <section>
+          <h2>Caching is awesome</h2>
+        </section>
+
+        <section>
+          <img src="img/cache_all_the_things.jpeg" width="500px">
+        </section>
+
+        <section>
+          <p>Ember Object and two Views</p>
+          <img src="img/bindings.png">
+        </section>
+
+        <section>
+          <pre><code>user.set('name', 'Chris');</code></pre>
+          <img src="img/binding_propogation.png">
+        </section>
+
+        <section>
+          <h2>The two hardest problems in computer science</h2>
+          <ul>
+            <li>Naming things</li>
+            <li>Cache invalidation</li>
+            <li>Off by one errors</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Cache invalidation</h2>
+        </section>
+
+        <section>
+          <img src="img/cache_invalidation.png">
+        </section>
+
+        <section>
+          <h2>User</h2>
+          <pre><code>var user = Em.Object.create({
+  id: 100,
+  name: null
+});</code></pre>
+        </section>
+
+        <section>
+          <h2>User</h2>
+          <pre><code>var user = Em.Object.create({
+  id: 100,
+  name: 'Josh Lubaway'
+});</code></pre>
+        </section>
+
+        <section>
+          <h2>Ember Data</h2>
+          <p>Coming soon...</p>
+          <img src="img/construct.gif" width="100px">
+        </section>
+
+        <section>
+          <h2>User</h2>
+          <pre><code>var user = User.create({
+  id: 100,
+  <span style="background-color: #C17F80">expireIn: 60 * 5</span>
+});</code></pre>
+        </section>
+
+        <section>
+          <pre><code>isExpired: function() {
+  return this.get('now') >
+    this.get('expireAt');
+}.property('now', 'expireAt')</code></pre>
+        </section>
+
+        <section>
+          <h2>Clock</h2>
+          <pre><code class="javascript">setInterval(updateNow, 10000);</code></pre>
+        </section>
+
+        <section>
+          <ul>
+            <li>Object expires in the future</li>
+            <li>Clock ticks every 10 seconds</li>
+            <li><code>isExpired</code> changes to <code>true</code></li>
+            <li>which propogates through the app</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Magic Ticket updates!</h2>
+        </section>
+
+        <section>
+          <img src="img/update_all_the_things.jpeg" width="500px">
+        </section>
+
+        <section>
+          <h2>*Works for low values of "all the things"</h2>
+        </section>
+
+        <section>
+          <ul>
+            <li>Ticket</li>
+            <li>20 Comments</li>
+            <li>5 CCs</li>
+            <li>30 misc Users</li>
+            <li>...</li>
+          </ul>
+        </section>
+
+        <section>
+          <ul>
+            <li>10 Tickets</li>
+            <li>10 x 20 Comments = 200</li>
+            <li>10 x 5 CCs = 50</li>
+            <li>10 x 30 misc Users = 300</li>
+            <li>...</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/bindings_now.png">
+        </section>
+
+        <section>
+          <h2>Bad idea</h2>
+          <strike>
+            <pre><code>isExpired: function() {
+  return this.get('now') >
+    this.get('expireAt');
+}.property('now', 'expireAt')</code></pre>
+          </strike>
+        </section>
+
+        <section>
+          <ul>
+            <li>We want our app to be fast</li>
+            <li>Caching makes it fast</li>
+            <li>Binding to <code>now</code> doesn’t scale</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Then what?</h2>
+        </section>
+
+        <section>
+          <img src="img/one_does_not_simply.png">
+        </section>
+
+        <section>
+          <h2>Caching is hard</h2>
+        </section>
+
+        <section>
+          <h2>Every solution causes more problems</h2>
+        </section>
+
+        <section>
+          <h2>1. Only check for expiration when necessary</h2>
+        </section>
+
+        <section>
+          <h2>Treat it like a classic web app</h2>
+        </section>
+
+        <section>
+          <h2>Click a link, check if your resource is expired</h2>
+        </section>
+
+        <section>
+          <h2>2. Sophisticated expiration</h2>
+        </section>
+
+        <section>
+          <h2>Websockets / Pubsub</h2>
+          <a href="http://radar.zendesk.com/">http://radar.zendesk.com/</a>
+        </section>
+
+        <section>
+          <h2>3. Uh oh, I cached too many objects</h2>
+          <p>Models, Views, Controllers, Mixins, Subclasses</p>
+        </section>
+
+        <section>
+          <h2>LRU Cache</h2>
+          <p>Least Recently Used</p>
+        </section>
+
+        <section>
+          <h2>Aggressively destroy</h2>
+          <p>Be careful, don’t delete currentUser</p>
+        </section>
+
+        <section>
+          <img src="img/ember.png">
+        </section>
+
+        <section>
+          <h2>What did we learn?</h2>
+        </section>
+
+        <section>
+          <ul>
+            <li>Cache invalidation is hard</li>
+            <li>We want our app to be fast</li>
+            <li>Caching makes it fast</li>
+            <li>Binding to <code>now</code> doesn’t scale</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Thank you</h1>
+          <p>Josh Lubaway</p>
+          <p>Zendesk</p>
+          <p>Ember Meetup</p>
+          <p><strong>Presentation software:</strong> Reveal.js</p>
+        </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+        controls: false,
+				progress: true,
+				history: true,
+				center: true,
+        rollingLinks: false,
+
+        theme: 'solarized', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
